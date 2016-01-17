@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>a8ef9ab0-a1ec-4b0e-bede-aac8161a3770</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Sharpler</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Application.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Album.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Track.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\IPlaylistTransport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\ITransport.cs" />
+  </ItemGroup>
+</Project>
