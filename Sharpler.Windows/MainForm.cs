@@ -1,13 +1,11 @@
-﻿
-using Sharpler.Playback;
-
-namespace Sharpler.Windows
+﻿namespace Sharpler.Windows
 {
     using System;
     using System.ComponentModel;
     using System.Windows.Forms;
 
     using Sharpler.Data;
+    using Sharpler.Playback;
     using Sharpler.Windows.Playback;
 
     using Application = Sharpler.Application;
@@ -26,7 +24,7 @@ namespace Sharpler.Windows
 
         private TrackPlayer TrackPlayer => application.TrackPlayer as TrackPlayer;
 
-        private void selectFileButton_Click(object sender, EventArgs e)
+        private void SelectFileButton_Click(object sender, EventArgs e)
         {
             if (selectFileDialog.ShowDialog() != DialogResult.OK)
             {
@@ -38,7 +36,7 @@ namespace Sharpler.Windows
             TrackPlayer.Track = track;
         }
 
-        private void playPauseButton_Click(object sender, EventArgs e)
+        private void PlayPauseButton_Click(object sender, EventArgs e)
         {
             if (TrackPlayer.PlayState == PlayState.Playing)
             {
@@ -49,7 +47,7 @@ namespace Sharpler.Windows
             TrackPlayer.Play();
         }
 
-        private void stopButton_Click(object sender, EventArgs e)
+        private void StopButton_Click(object sender, EventArgs e)
         {
             TrackPlayer.Stop();
         }

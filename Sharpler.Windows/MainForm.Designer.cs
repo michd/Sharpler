@@ -52,7 +52,7 @@
             this.selectFileButton.TabIndex = 1;
             this.selectFileButton.Text = "Select File...";
             this.selectFileButton.UseVisualStyleBackColor = true;
-            this.selectFileButton.Click += new System.EventHandler(this.selectFileButton_Click);
+            this.selectFileButton.Click += new System.EventHandler(this.SelectFileButton_Click);
             // 
             // playPauseButton
             // 
@@ -62,7 +62,7 @@
             this.playPauseButton.TabIndex = 2;
             this.playPauseButton.Text = "Play";
             this.playPauseButton.UseVisualStyleBackColor = true;
-            this.playPauseButton.Click += new System.EventHandler(this.playPauseButton_Click);
+            this.playPauseButton.Click += new System.EventHandler(this.PlayPauseButton_Click);
             // 
             // stopButton
             // 
@@ -72,7 +72,7 @@
             this.stopButton.TabIndex = 3;
             this.stopButton.Text = "Stop";
             this.stopButton.UseVisualStyleBackColor = true;
-            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            this.stopButton.Click += new System.EventHandler(this.StopButton_Click);
             // 
             // selectFileDialog
             // 

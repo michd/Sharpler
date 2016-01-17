@@ -6,9 +6,9 @@
 
     using NAudio.Wave;
 
-    using global::Sharpler.Playback;
-    using global::Sharpler.Data;
-    using global::Sharpler.Windows.Annotations;
+    using Sharpler.Data;
+    using Sharpler.Playback;
+    using Sharpler.Windows.Annotations;
 
     // TODO: PropertyChanged events on CurrentTime, TrackDuration
     public class TrackPlayer : ITransport, IDisposable
@@ -24,8 +24,6 @@
             Track = track;
             waveOutDevice.PlaybackStopped += WaveOutDeviceOnPlaybackStopped;
         }
-
-        
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -77,7 +75,7 @@
             get
             {
                 switch (waveOutDevice.PlaybackState)
-                {       
+                {
                     case PlaybackState.Playing:
                         return PlayState.Playing;
 

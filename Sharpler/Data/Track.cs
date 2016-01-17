@@ -7,7 +7,7 @@ namespace Sharpler.Data
         public int? TrackNumber { get; set; }
 
         public string Artist { get; set; }
-        
+
         public string Title { get; set; }
 
         public Album Album { get; set; }
