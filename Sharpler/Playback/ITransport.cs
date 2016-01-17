@@ -51,7 +51,7 @@
         /// if seekPoint is higher than the duration of the track
         /// </summary>
         /// <param name="seekPoint">Time position in the track to seek to</param>
-        void Seek(TimeSpan seekPoint);
+        void SeekTo(TimeSpan seekPoint);
     }
 
     public enum PlayState

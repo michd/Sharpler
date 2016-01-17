@@ -1,8 +1,11 @@
-﻿namespace Sharpler.Windows.Playback
+﻿
+namespace Sharpler.Windows.Playback
 {
     using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     using NAudio.Wave;
 
@@ -10,12 +13,15 @@
     using Sharpler.Playback;
     using Sharpler.Windows.Annotations;
 
-    // TODO: PropertyChanged events on CurrentTime, TrackDuration
     public class TrackPlayer : ITransport, IDisposable
     {
+        private static readonly TimeSpan TimeUpdateRate = TimeSpan.FromMilliseconds(200);
+
         private readonly IWavePlayer waveOutDevice = new WaveOut();
 
         private AudioFileReader audioFileReader;
+
+        private CancellationTokenSource timeUpdateCts;
 
         private Track track;
 
@@ -23,6 +29,8 @@
         {
             Track = track;
             waveOutDevice.PlaybackStopped += WaveOutDeviceOnPlaybackStopped;
+
+            PropertyChanged += LocalOnPropertyChanged;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -52,6 +60,8 @@
 
                 audioFileReader = new AudioFileReader(track.FilePath);
                 waveOutDevice.Init(audioFileReader);
+
+                OnPropertyChanged(nameof(TrackDuration));
             }
         }
 
@@ -105,16 +115,25 @@
             waveOutDevice.Stop();
             audioFileReader.Position = 0;
             OnPropertyChanged(nameof(PlayState));
+            OnPropertyChanged(nameof(CurrentTime));
         }
 
-        public void Seek(TimeSpan seekPoint)
+        public void SeekTo(TimeSpan seekPoint)
         {
+            if (Track == null)
+            {
+                return;
+            }
+
             audioFileReader.CurrentTime = seekPoint;
+            OnPropertyChanged(nameof(CurrentTime));
         }
 
         public void Dispose()
         {
             PropertyChanged = null;
+            StopUpdatingTime();
+
             Track = null;
 
             waveOutDevice.PlaybackStopped -= WaveOutDeviceOnPlaybackStopped;
@@ -129,10 +148,57 @@
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void StartUpdatingTime()
+        {
+            StopUpdatingTime();
+
+            timeUpdateCts = new CancellationTokenSource();
+            UpdateTime();
+        }
+
+        private void StopUpdatingTime()
+        {
+            timeUpdateCts?.Cancel();
+            timeUpdateCts?.Dispose();
+            timeUpdateCts = null;
+        }
+
+        private async void UpdateTime()
+        {
+            try
+            {
+                OnPropertyChanged(nameof(CurrentTime));
+                await Task.Delay(TimeUpdateRate, timeUpdateCts.Token);
+                UpdateTime();
+            }
+            catch (TaskCanceledException)
+            {
+                // Canceled, so don't do anything
+            }
+        }
+
         private void WaveOutDeviceOnPlaybackStopped(object sender, StoppedEventArgs stoppedEventArgs)
         {
             audioFileReader.CurrentTime = TimeSpan.Zero;
             OnPropertyChanged(nameof(PlayState));
+        }
+
+        private void LocalOnPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(PlayState):
+                    if (PlayState == PlayState.Playing)
+                    {
+                        StartUpdatingTime();
+                    }
+                    else
+                    {
+                        StopUpdatingTime();
+                    }
+
+                    break;
+            }
         }
     }
 }

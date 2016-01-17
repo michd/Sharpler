@@ -14,5 +14,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\Track.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Playback\IPlaylistTransport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Playback\ITransport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Support\ExtensionMethods.cs" />
   </ItemGroup>
 </Project>

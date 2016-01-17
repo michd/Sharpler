@@ -6,6 +6,7 @@
 
     using Sharpler.Data;
     using Sharpler.Playback;
+    using Sharpler.Support;
     using Sharpler.Windows.Playback;
 
     using Application = Sharpler.Application;
@@ -64,7 +65,24 @@
                     // TODO: localization
                     playPauseButton.Text = (TrackPlayer.PlayState == PlayState.Playing) ? "Pause" : "Play";
                     break;
+
+                case nameof(TrackPlayer.TrackDuration):
+                    progressBar.Maximum = (int)(TrackPlayer.TrackDuration?.TotalMilliseconds ?? 0);
+                    durationLabel.Text = (TrackPlayer.TrackDuration ?? TimeSpan.Zero).FormatAsPlaybackTime();
+                    break;
+
+                case nameof(TrackPlayer.CurrentTime):
+                    progressBar.Value = (int)TrackPlayer.CurrentTime.TotalMilliseconds;
+                    currentTimeLabel.Text = TrackPlayer.CurrentTime.FormatAsPlaybackTime();
+                    break;
             }
+        }
+
+        private void ProgressBar_MouseClick(object sender, MouseEventArgs args)
+        {
+            var seekPoint = (float)progressBar.Maximum / progressBar.Width * args.X;
+
+            TrackPlayer.SeekTo(TimeSpan.FromMilliseconds(seekPoint));
         }
     }
 }

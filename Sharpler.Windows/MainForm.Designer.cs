@@ -33,12 +33,15 @@
             this.playPauseButton = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
             this.selectFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.currentTimeLabel = new System.Windows.Forms.Label();
+            this.durationLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // trackNameLabel
             // 
             this.trackNameLabel.AutoSize = true;
-            this.trackNameLabel.Location = new System.Drawing.Point(12, 52);
+            this.trackNameLabel.Location = new System.Drawing.Point(9, 52);
             this.trackNameLabel.Name = "trackNameLabel";
             this.trackNameLabel.Size = new System.Drawing.Size(142, 13);
             this.trackNameLabel.TabIndex = 0;
@@ -56,7 +59,7 @@
             // 
             // playPauseButton
             // 
-            this.playPauseButton.Location = new System.Drawing.Point(12, 80);
+            this.playPauseButton.Location = new System.Drawing.Point(12, 126);
             this.playPauseButton.Name = "playPauseButton";
             this.playPauseButton.Size = new System.Drawing.Size(45, 23);
             this.playPauseButton.TabIndex = 2;
@@ -66,7 +69,7 @@
             // 
             // stopButton
             // 
-            this.stopButton.Location = new System.Drawing.Point(63, 80);
+            this.stopButton.Location = new System.Drawing.Point(63, 126);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(45, 23);
             this.stopButton.TabIndex = 3;
@@ -77,12 +80,47 @@
             // selectFileDialog
             // 
             this.selectFileDialog.FileName = "openFileDialog1";
+            this.selectFileDialog.Filter = "MP3 Files|*.mp3|Wave audio files|*.wav";
+            // 
+            // progressBar
+            // 
+            this.progressBar.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.progressBar.Location = new System.Drawing.Point(12, 68);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(260, 18);
+            this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar.TabIndex = 4;
+            this.progressBar.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ProgressBar_MouseClick);
+            
+            // 
+            // currentTimeLabel
+            // 
+            this.currentTimeLabel.AutoSize = true;
+            this.currentTimeLabel.Location = new System.Drawing.Point(9, 89);
+            this.currentTimeLabel.Name = "currentTimeLabel";
+            this.currentTimeLabel.Size = new System.Drawing.Size(28, 13);
+            this.currentTimeLabel.TabIndex = 5;
+            this.currentTimeLabel.Text = "0:00";
+            // 
+            // durationLabel
+            // 
+            this.durationLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.durationLabel.AutoSize = true;
+            this.durationLabel.Location = new System.Drawing.Point(247, 89);
+            this.durationLabel.Name = "durationLabel";
+            this.durationLabel.Size = new System.Drawing.Size(28, 13);
+            this.durationLabel.TabIndex = 6;
+            this.durationLabel.Text = "0:00";
+            this.durationLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 115);
+            this.ClientSize = new System.Drawing.Size(284, 161);
+            this.Controls.Add(this.durationLabel);
+            this.Controls.Add(this.currentTimeLabel);
+            this.Controls.Add(this.progressBar);
             this.Controls.Add(this.stopButton);
             this.Controls.Add(this.playPauseButton);
             this.Controls.Add(this.selectFileButton);
@@ -104,6 +142,9 @@
         private System.Windows.Forms.Button playPauseButton;
         private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.OpenFileDialog selectFileDialog;
+        private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.Label currentTimeLabel;
+        private System.Windows.Forms.Label durationLabel;
     }
 }
 
