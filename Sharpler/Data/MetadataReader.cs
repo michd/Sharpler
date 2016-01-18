@@ -1,8 +1,8 @@
-﻿using System.IO;
-
-namespace Sharpler.Data
+﻿namespace Sharpler.Data
 {
     using TagLib;
+
+    using Path = System.IO.Path;
 
     /// <summary>
     /// Reads metadata from audio files, returning fully formed Track instances

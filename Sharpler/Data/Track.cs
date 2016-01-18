@@ -1,8 +1,8 @@
-﻿using System;
-using System.IO;
-
-namespace Sharpler.Data
+﻿namespace Sharpler.Data
 {
+    using System;
+    using System.IO;
+
     public class Track
     {
         private string artist;

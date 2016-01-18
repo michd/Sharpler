@@ -4,10 +4,9 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq;
     using System.Runtime.CompilerServices;
+    using System.Linq;
 
-    using Sharpler.Annotations;
     using Sharpler.Support;
 
     public class Playlist : IEnumerable<Track>, INotifyPropertyChanged
@@ -43,7 +42,7 @@
         public void Add(Track track)
         {
             list.Add(track);
-            OnChanged();
+            OnListChanged();
             OnPropertyChanged(nameof(Count));
             CalculateDuration();
         }
@@ -59,13 +58,13 @@
 
             list.RemoveAt(startPos);
             list.Insert(newPos, track);
-            OnChanged();
+            OnListChanged();
         }
 
         public void Remove(int pos)
         {
             list.RemoveAt(pos);
-            OnChanged();
+            OnListChanged();
             OnPropertyChanged(nameof(Count));
             CalculateDuration();
         }
@@ -73,7 +72,7 @@
         public void Shuffle()
         {
             list.Shuffle();
-            OnChanged();
+            OnListChanged();
         }
 
         public IEnumerator<Track> GetEnumerator()
@@ -92,14 +91,14 @@
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void OnChanged()
+        private void OnListChanged()
         {
             ListChanged?.Invoke(this, new EventArgs());
         }
 
         private void CalculateDuration()
         {
-            Duration = list.Aggregate(TimeSpan.Zero, (total, next) => total += next.Duration);
+            Duration = list.Aggregate(TimeSpan.Zero, (total, next) => total + next.Duration);
         }
     }
 }
