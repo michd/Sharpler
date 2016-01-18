@@ -1,16 +1,55 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Sharpler.Data
 {
     public class Track
     {
-        public int? TrackNumber { get; set; }
+        private string artist;
 
-        public string Artist { get; set; }
+        private string title;
 
-        public string Title { get; set; }
+        public uint? TrackNumber { get; set; }
+
+        public string Artist
+        {
+            get
+            {
+                return artist;
+            }
+
+            set
+            {
+                if (artist == value)
+                {
+                    return;
+                }
+
+                artist = string.IsNullOrWhiteSpace(value) ? null : value;
+            }
+        }
+
+        public string Title
+        {
+            get
+            {
+                return title;
+            }
+
+            set
+            {
+                if (title == value)
+                {
+                    return;
+                }
+
+                title = string.IsNullOrWhiteSpace(value) ? null : value;
+            }
+        }
 
         public Album Album { get; set; }
+
+        public TimeSpan Duration { get; set; }
 
         public string FilePath { get; set; }
 

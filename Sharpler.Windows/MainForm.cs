@@ -32,9 +32,7 @@
                 return;
             }
 
-            var track = new Track { FilePath = selectFileDialog.FileName };
-
-            TrackPlayer.Track = track;
+            TrackPlayer.Track = MetadataReader.ReadTrack(selectFileDialog.FileName);
         }
 
         private void PlayPauseButton_Click(object sender, EventArgs e)

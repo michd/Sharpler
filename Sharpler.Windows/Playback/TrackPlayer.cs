@@ -1,5 +1,4 @@
-﻿
-namespace Sharpler.Windows.Playback
+﻿namespace Sharpler.Windows.Playback
 {
     using System;
     using System.ComponentModel;

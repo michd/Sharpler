@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Application.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\Album.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\MetadataReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\Track.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Playback\IPlaylistTransport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Playback\ITransport.cs" />
