@@ -8,9 +8,9 @@
 
     using NAudio.Wave;
 
+    using Sharpler.Annotations;
     using Sharpler.Data;
     using Sharpler.Playback;
-    using Sharpler.Windows.Annotations;
 
     public class TrackPlayer : ITransport, IDisposable
     {
