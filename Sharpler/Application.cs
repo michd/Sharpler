@@ -2,6 +2,7 @@
 {
     using System;
 
+    using Sharpler.Data;
     using Sharpler.Playback;
 
     public class Application
@@ -10,9 +11,17 @@
         {
             TrackPlayer = trackPlayer;
 
+            PlayQueue = new Playlist();
+
+            PlaylistPlayer = new PlaylistPlayer(this);
+
             Console.WriteLine(@"Application initalised.");
         }
 
         public ITransport TrackPlayer { get; }
+
+        public PlaylistPlayer PlaylistPlayer { get; }
+
+        public Playlist PlayQueue { get; }
     }
 }

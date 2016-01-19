@@ -10,6 +10,8 @@
     /// </summary>
     public interface ITransport : INotifyPropertyChanged
     {
+        event EventHandler TrackFinished;
+
         /// <summary>
         /// Gets the current position within the track
         /// </summary>

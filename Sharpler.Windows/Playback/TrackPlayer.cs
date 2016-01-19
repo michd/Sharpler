@@ -23,6 +23,8 @@
 
         private Track track;
 
+        private bool nextStopIsRequested;
+
         public TrackPlayer(Track track = null)
         {
             Track = track;
@@ -32,6 +34,8 @@
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public event EventHandler TrackFinished;
 
         public Track Track
         {
@@ -55,6 +59,9 @@
                 {
                     return;
                 }
+
+                waveOutDevice.Stop();
+                audioFileReader?.Dispose();
 
                 audioFileReader = new AudioFileReader(track.FilePath);
                 waveOutDevice.Init(audioFileReader);
@@ -98,20 +105,40 @@
 
         public void Play()
         {
+            if (waveOutDevice == null)
+            {
+                return;
+            }
+
             waveOutDevice.Play();
             OnPropertyChanged(nameof(PlayState));
         }
 
         public void Pause()
         {
+            if (waveOutDevice == null)
+            {
+                return;
+            }
+
             waveOutDevice.Pause();
             OnPropertyChanged(nameof(PlayState));
         }
 
         public void Stop()
         {
+            if (waveOutDevice == null || audioFileReader == null)
+            {
+                return;
+            }
+
+            // This flag ensures we can distinguish between track endings and manual
+            // stop calls in the PlaybackStopped event handler
+            nextStopIsRequested = true;
+
             waveOutDevice.Stop();
             audioFileReader.Position = 0;
+
             OnPropertyChanged(nameof(PlayState));
             OnPropertyChanged(nameof(CurrentTime));
         }
@@ -177,7 +204,19 @@
 
         private void WaveOutDeviceOnPlaybackStopped(object sender, StoppedEventArgs stoppedEventArgs)
         {
+            if (nextStopIsRequested)
+            {
+                nextStopIsRequested = false;
+                return;
+            }
+
             audioFileReader.CurrentTime = TimeSpan.Zero;
+
+            if (stoppedEventArgs.Exception == null)
+            {
+                TrackFinished?.Invoke(this, new EventArgs());
+            }
+
             OnPropertyChanged(nameof(PlayState));
         }
 

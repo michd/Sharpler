@@ -1,6 +1,4 @@
-﻿using System;
-
-#pragma warning disable 1591
+﻿#pragma warning disable 1591
 #pragma warning disable SA1402 // File may only contain a single class
 
 // ReSharper disable UnusedMember.Global
@@ -11,6 +9,8 @@
 // ReSharper disable InconsistentNaming
 namespace Sharpler
 {
+    using System;
+
     /// <summary>
     /// Indicates that the value of the marked element could be <c>null</c> sometimes,
     /// so the check for <c>null</c> is necessary before its usage.
