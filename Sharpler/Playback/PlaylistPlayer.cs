@@ -45,7 +45,7 @@
                 return currentIndex;
             }
 
-            set
+            private set
             {
                 if (currentIndex == value)
                 {
@@ -107,6 +107,17 @@
             }
 
             CurrentIndex++;
+            PlayCurrentTrack();
+        }
+
+        public void SkipToIndex(int index)
+        {
+            if (index < 0 || index >= PlayQueue.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+
+            CurrentIndex = index;
             PlayCurrentTrack();
         }
 

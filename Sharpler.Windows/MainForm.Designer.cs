@@ -41,12 +41,13 @@
             this.previousButton = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.mediaLibraryPlaceholderLabel = new System.Windows.Forms.Label();
-            this.playlistListBox = new System.Windows.Forms.ListBox();
+            this.playlistDataGridView = new System.Windows.Forms.DataGridView();
             this.transportPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.playlistDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // trackNameLabel
@@ -184,9 +185,9 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.playlistListBox);
+            this.splitContainer1.Panel2.Controls.Add(this.playlistDataGridView);
             this.splitContainer1.Size = new System.Drawing.Size(725, 415);
-            this.splitContainer1.SplitterDistance = 522;
+            this.splitContainer1.SplitterDistance = 490;
             this.splitContainer1.TabIndex = 9;
             // 
             // mediaLibraryPlaceholderLabel
@@ -201,19 +202,26 @@
             this.mediaLibraryPlaceholderLabel.Text = "One day, the Media Library will live here.";
             this.mediaLibraryPlaceholderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // playlistListBox
+            // playlistDataGridView
             // 
-            this.playlistListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.playlistListBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.playlistListBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.playlistListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.playlistListBox.FormattingEnabled = true;
-            this.playlistListBox.ItemHeight = 18;
-            this.playlistListBox.Location = new System.Drawing.Point(0, 0);
-            this.playlistListBox.Margin = new System.Windows.Forms.Padding(0);
-            this.playlistListBox.Name = "playlistListBox";
-            this.playlistListBox.Size = new System.Drawing.Size(199, 415);
-            this.playlistListBox.TabIndex = 0;
+            this.playlistDataGridView.AllowUserToAddRows = false;
+            this.playlistDataGridView.AllowUserToResizeRows = false;
+            this.playlistDataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.playlistDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.playlistDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.playlistDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.playlistDataGridView.ColumnHeadersVisible = false;
+            this.playlistDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.playlistDataGridView.Location = new System.Drawing.Point(0, 0);
+            this.playlistDataGridView.MultiSelect = false;
+            this.playlistDataGridView.Name = "playlistDataGridView";
+            this.playlistDataGridView.ReadOnly = true;
+            this.playlistDataGridView.RowHeadersVisible = false;
+            this.playlistDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.playlistDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.playlistDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.playlistDataGridView.Size = new System.Drawing.Size(231, 415);
+            this.playlistDataGridView.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -233,6 +241,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.playlistDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -249,10 +258,10 @@
         private System.Windows.Forms.Label durationLabel;
         private System.Windows.Forms.Panel transportPanel;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.ListBox playlistListBox;
         private System.Windows.Forms.Label mediaLibraryPlaceholderLabel;
         private System.Windows.Forms.Button nextButton;
         private System.Windows.Forms.Button previousButton;
+        private System.Windows.Forms.DataGridView playlistDataGridView;
     }
 }
 

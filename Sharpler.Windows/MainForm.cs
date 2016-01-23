@@ -69,7 +69,9 @@
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            playQueueAdapter = new PlaylistAdapter(playlistListBox, application.PlayQueue);
+            playQueueAdapter = new PlaylistAdapter(playlistDataGridView, application.PlayQueue);
+
+            playQueueAdapter.ItemDoubleClicked += (s, args) => PlaylistPlayer.SkipToIndex(args.Index);
         }
 
         private void SelectFileButton_Click(object sender, EventArgs e)

@@ -2,39 +2,40 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Drawing;
-    using System.Runtime.CompilerServices;
     using System.Windows.Forms;
 
     using Sharpler.Data;
+    using Sharpler.Support;
 
-    public class PlaylistAdapter : INotifyPropertyChanged
+    public class PlaylistAdapter
     {
-        private readonly ListBox listBox;
+        private readonly DataGridView dataGridView;
 
         private readonly Dictionary<string, Track> trackDictionary = new Dictionary<string, Track>();
 
         private readonly Font highlightFont;
 
-        private readonly Brush textBrush;
-
         private Playlist playlist;
 
         private int? highlightedIndex;
 
-        public PlaylistAdapter(ListBox listBox, Playlist playlist)
+        public PlaylistAdapter(DataGridView dataGridView, Playlist playlist)
         {
-            this.listBox = listBox;
+            this.dataGridView = dataGridView;
             Playlist = playlist;
 
-            highlightFont = new Font(listBox.Font.FontFamily, listBox.Font.Size, FontStyle.Bold);
-            textBrush = new SolidBrush(listBox.ForeColor);
+            highlightFont = new Font(dataGridView.Font.FontFamily, dataGridView.Font.Size, FontStyle.Italic);
 
-            listBox.DrawItem += ListBoxOnDrawItem;
+            dataGridView.CellDoubleClick += DataGridViewOnCellDoubleClick;
+
+            dataGridView.Resize += (s, e) => ResizeColumns();
+
+            dataGridView.Columns.Add("track", "Track");
+            dataGridView.Columns.Add("duration", "Duration");
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        internal event EventHandler<PlaylistItemDoubleClickedEventargs> ItemDoubleClicked;
 
         public Playlist Playlist
         {
@@ -73,29 +74,51 @@
                     return;
                 }
 
+                var oldIndex = highlightedIndex;
+
                 highlightedIndex = value;
 
-                if (highlightedIndex != null)
-                {
-                    listBox.Refresh();
-                }
+                UpdateHighlightedRow(oldIndex, highlightedIndex);
             }
-        }
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void PlaylistOnListChanged(object sender, EventArgs e)
         {
             GenerateTrackDictionary();
-            listBox.Items.Clear();
+            dataGridView.Rows.Clear();
 
-            foreach (var trackStr in trackDictionary.Keys)
+            foreach (var trackPair in trackDictionary)
             {
-                listBox.Items.Add(trackStr);
+                var row = new DataGridViewRow();
+                row.Cells.Add(new DataGridViewTextBoxCell { Value = trackPair.Key });
+                row.Cells.Add(new DataGridViewTextBoxCell { Value = trackPair.Value.Duration.FormatAsPlaybackTime() });
+                dataGridView.Rows.Add(row);
+            }
+
+            ResizeColumns();
+            UpdateHighlightedRow(newRowIndex: highlightedIndex);
+        }
+
+        private void UpdateHighlightedRow(int? oldRowIndex = null, int? newRowIndex = null)
+        {
+            if (oldRowIndex != null && dataGridView.Rows.Count - 1 >= oldRowIndex.Value)
+            {
+                var row = dataGridView.Rows[oldRowIndex.Value];
+
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    cell.Style.Font = dataGridView.Font;
+                }
+            }
+
+            if (newRowIndex != null && dataGridView.Rows.Count - 1 >= newRowIndex.Value)
+            {
+                var row = dataGridView.Rows[newRowIndex.Value];
+
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    cell.Style.Font = highlightFont;
+                }
             }
         }
 
@@ -111,16 +134,25 @@
             }
         }
 
-        private void ListBoxOnDrawItem(object sender, DrawItemEventArgs args)
+        private void ResizeColumns()
         {
-            args.DrawBackground();
-            args.Graphics.DrawString(
-                listBox.Items[args.Index].ToString(),
-                args.Index == (highlightedIndex ?? -1) ? highlightFont : args.Font,
-                textBrush,
-                args.Bounds);
+            dataGridView.AutoResizeColumn(1);
+            dataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
 
-            args.DrawFocusRectangle();
+        private void DataGridViewOnCellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            ItemDoubleClicked?.Invoke(this, new PlaylistItemDoubleClickedEventargs(e.RowIndex));
+        }
+
+        internal class PlaylistItemDoubleClickedEventargs : EventArgs
+        {
+            public PlaylistItemDoubleClickedEventargs(int index)
+            {
+                Index = index;
+            }
+
+            public int Index { get; }
         }
     }
 }
